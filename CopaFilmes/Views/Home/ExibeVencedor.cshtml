@@ -1,0 +1,30 @@
+﻿@model IEnumerable<CopaFilmes.Models.Filme>
+@{
+    ViewBag.Title = "Vencedores";
+}
+
+<div class="jumbotron">
+	<h6 ALIGN="center"> CAMPEONATO DE FILMES</h6>
+	<h3 ALIGN="center"> Resultado Final </h3>
+	<h6 ALIGN="center" FONT="Tahoma" SIZE="2">Veja o resultado final do Campeonato de filmes de forma simples e rápida</h6>	
+</div>
+
+<table class="table">
+
+	@{ var posicao = 1;}
+
+	@foreach (var item in Model)
+	{
+		<tr>			
+			<td style="background-color:#808080; width: 50px; font-size: x-large  ">
+				<label >@posicao </label>	<label> º</label>
+			</td>
+			<td style="background-color:#ffffff;">
+				<label>@Html.DisplayFor(modelItem => item.Titulo)</label>	
+			</td>
+		</tr>
+		posicao++;
+	}
+
+</table>
+

@@ -1,0 +1,103 @@
+﻿@model IEnumerable<CopaFilmes.Models.Filme>
+
+@{
+	ViewBag.Title = "Copa de Filmes";
+}
+
+<script>
+	function ValidaQteSelecionados() {
+		var inputs, i, checados = 0;
+		inputs = document.getElementsByTagName('input');
+		// Verifica a Quantidade selecionados
+		for (i = 0; i < inputs.length - 1; i++) {
+			if ((inputs[i].type == 'checkbox') & (inputs[i].name == 'chkfilmes')) {
+				if (inputs[i].checked == true) {
+					checados++
+				}
+			}
+		}
+
+		if (checados != 8) {
+			console.log(checados);
+			alert('Quantidade Incorreta. Selecione 8 filmes para continuar ');
+			return false
+		}
+		else
+		 return true;		
+	}
+
+	function QteSelecionados() {
+		var inputs, i, checados = 0;
+
+		inputs = document.getElementsByTagName('input');
+		// Verifica a Quantidade selecionados
+		for (i = 0; i < inputs.length - 1; i++) {
+			if ((inputs[i].type == 'checkbox') & (inputs[i].name == 'chkfilmes')) {
+				if (inputs[i].checked == true) {
+					if (checados >=8 ) {
+						alert('Número máximo de filmes selecionados');
+						inputs[i].checked = false;
+					}
+					else
+					  checados++
+				}
+			}
+		}		
+
+		$("#spanSelecionados").text(checados);		
+			
+	}
+</script>
+
+<form action="/Home/ExibeVencedor" method="post" onsubmit="return ValidaQteSelecionados()" name="frmExibe" b>
+	<div class="jumbotron">
+		<h6 ALIGN="center"> CAMPEONATO DE FILMES</h6>
+		<h3 ALIGN="center">Fase de Seleção </h3>
+		<h6 ALIGN="center" FONT="Tahoma" SIZE="2">Selecione 8 filmes que você deseja que entrem na competição e depois pressione o botão Gerar Meu Campeonato para prosseguir.</h6>		
+	</div>
+	<p></p>
+		
+	<div style="display:flex; justify-content:flex-end ">
+		<input type="submit" value="Gerar meu Campeonato" id="btnGerar" name="btnGerar" class="botaoEnviar">
+		<p></p>
+	</div>
+
+	<div style="display:flex; justify-content:flex-start; color:aliceblue; font-size:medium; ">
+		<p>
+			Selecionados:<br />
+			<span id="spanSelecionados">0</span>  de  8 filmes
+		</p>
+		<p></p>
+	</div>
+
+	<div class="row">
+
+		<table id="table1" class="table" style="margin-top:2%; ">
+			@*<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Titulo)
+
+				</th>											
+			</tr>*@
+			<tr>
+
+			@{ var contador = 1;}
+			@foreach (var item in Model)
+			{
+				<td style="background-color:#ffffff; border: 1px solid #ffffff; padding:10px">
+					<label><input type="checkbox" name="chkfilmes"  onclick="return QteSelecionados()" class="lista" value=@Html.DisplayFor(modelIem => item.Id) /> @Html.DisplayFor(modelItem => item.Titulo)</label>
+					<p>@Html.DisplayFor(modelItem => item.Ano)</p>
+				</td>
+
+				if (++contador > 4)
+				{
+					contador = 1;
+				@:</tr>
+				@:<tr>
+				}
+			}
+			</tr>
+		</table>
+	</div>
+</form>
+
